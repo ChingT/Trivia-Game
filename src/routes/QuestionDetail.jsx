@@ -1,13 +1,41 @@
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useParams, useNavigate } from "react-router-dom";
+
+Array.prototype.shuffle = function () {
+  this.sort(() => 0.5 - Math.random());
+};
 
 export default function QuestionDetail() {
+  const questions = useSelector((state) => state.questions.questions);
+  const { questionNr } = useParams();
+  const question = questions[questionNr];
+
+  const navigate = useNavigate();
   useEffect(() => {
-    document.title = "Question - Trivia Game";
-  });
+    if (!question) {
+      navigate("/questions/1");
+    }
+  }, [question]);
+
+  const options = [question.correct_answer, ...question.incorrect_answers];
+  options.shuffle();
+
+  const renderQuestion = () => (
+    <div className="question">
+      <h3 className="title">{question.question}</h3>
+      <div className="options">
+        {options.map((option) => (
+          <div key={option}>{option}</div>
+        ))}
+      </div>
+    </div>
+  );
 
   return (
     <>
-      <h1>Question</h1>
+      <h2>Question</h2>
+      {renderQuestion()}
     </>
   );
 }
