@@ -4,6 +4,7 @@ const initialState = {
   questions: {},
   options: {},
   answers: {},
+  numberOfQuestions: 0,
 };
 
 const QuestionSlice = createSlice({
@@ -15,6 +16,7 @@ const QuestionSlice = createSlice({
       state.questions = Object.fromEntries(
         questionsArray.map((question, index) => [index + 1, question])
       );
+      state.numberOfQuestions = questionsArray.length;
     },
     setOptions: (state, action) => {
       const [questionNr, options] = action.payload;
