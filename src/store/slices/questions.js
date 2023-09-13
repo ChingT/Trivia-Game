@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  questions: [],
+  questions: {},
 };
 
 const QuestionSlice = createSlice({
@@ -9,7 +9,10 @@ const QuestionSlice = createSlice({
   initialState,
   reducers: {
     loadQuestions: (state, action) => {
-      state.questions = action.payload;
+      const questionsArray = action.payload;
+      state.questions = Object.fromEntries(
+        questionsArray.map((question, index) => [index + 1, question])
+      );
     },
   },
 });

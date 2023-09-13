@@ -18,6 +18,8 @@ export default function QuestionDetail() {
     }
   }, [question]);
 
+  if (!question) return <>Loading the first question....</>;
+
   const options = [question.correct_answer, ...question.incorrect_answers];
   options.shuffle();
 

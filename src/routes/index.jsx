@@ -14,11 +14,6 @@ export default function Router() {
           <Route path="/" element={<Home />} />
           <Route path="/questions" element={<Questions />}>
             <Route path=":questionNr" element={<QuestionDetail />} />
-            <Route index element={<p>No question selected</p>} />
-            <Route
-              path="notfound"
-              element={<p>This question does not exist</p>}
-            />
           </Route>
           <Route path="/result" element={<Result />} />
           <Route path="*" element={<NotFound />} />
