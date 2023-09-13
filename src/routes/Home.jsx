@@ -1,8 +1,12 @@
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, redirect } from "react-router-dom";
 import { loadQuestions } from "../store/slices/questions";
 import { useEffect } from "react";
-// import { Link } from "react-router-dom";
+import { setOptions } from "../store/slices/questions";
+
+Array.prototype.shuffle = function () {
+  this.sort(() => 0.5 - Math.random());
+};
 
 export default function Home() {
   useEffect(() => {
@@ -10,6 +14,8 @@ export default function Home() {
   });
 
   const dispatch = useDispatch();
+  const questions = useSelector((state) => state.questions.questions);
+
   const fetchquestions = async (num = 10, questionType = "multiple") => {
     try {
       const res = await fetch(
@@ -22,6 +28,15 @@ export default function Home() {
       return redirect("/");
     }
   };
+
+  useEffect(() => {
+    if (!questions) return;
+    Object.entries(questions).forEach(([questionNr, question]) => {
+      const options = [question.correct_answer, ...question.incorrect_answers];
+      options.shuffle();
+     dispatch( setOptions([questionNr, options]));
+    });
+  }, [questions]);
 
   useEffect(() => {
     fetchquestions();
