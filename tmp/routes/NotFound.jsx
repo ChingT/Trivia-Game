@@ -6,8 +6,9 @@ export default function NotFound() {
   });
 
   return (
-    <main id="not-found">
-      <h1>Page Not Found</h1>
-    </main>
+    <>
+      <h1>Error</h1>
+      <h2>Page Not Found</h2>
+    </>
   );
 }

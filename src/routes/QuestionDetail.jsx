@@ -35,9 +35,9 @@ export default function QuestionDetail() {
   );
 
   return (
-    <>
+    <main id="question">
       <h2>Question</h2>
       {renderQuestion()}
-    </>
+    </main>
   );
 }

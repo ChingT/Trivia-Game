@@ -15,10 +15,10 @@ export default function Footer() {
 
   return (
     <footer>
-      <aside>
-        <div>Questions</div>
+      <div>
+        Questions
         {renderquestions()}
-      </aside>
+      </div>
     </footer>
   );
 }

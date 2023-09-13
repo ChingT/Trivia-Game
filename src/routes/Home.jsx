@@ -33,9 +33,9 @@ export default function Home() {
   };
 
   return (
-    <>
+    <main id="home">
       <h1>Welcome to Trivia Game</h1>
       <button onClick={handleClick}>Start</button>
-    </>
+    </main>
   );
 }

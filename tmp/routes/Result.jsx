@@ -6,8 +6,8 @@ export default function Result() {
   });
 
   return (
-    <main id="result">
+    <>
       <h1>Result</h1>
-    </main>
+    </>
   );
 }
