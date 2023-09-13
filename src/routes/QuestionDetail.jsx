@@ -1,43 +1,66 @@
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
-
-Array.prototype.shuffle = function () {
-  this.sort(() => 0.5 - Math.random());
-};
+import { Radio } from "../components/Radio";
+import { saveAnswer } from "../store/slices/questions";
 
 export default function QuestionDetail() {
+  const dispatch = useDispatch();
+
   const questions = useSelector((state) => state.questions.questions);
+  const allOptions = useSelector((state) => state.questions.options);
   const { questionNr } = useParams();
   const question = questions[questionNr];
+  const options = allOptions[questionNr];
 
   const navigate = useNavigate();
   useEffect(() => {
     if (!question) {
       navigate("/");
     }
-  }, [question]);
+  }, [navigate, question]);
 
   if (!question) return <>Loading the first question....</>;
 
-  const options = [question.correct_answer, ...question.incorrect_answers];
-  options.shuffle();
+  const name = "question";
 
-  const renderQuestion = () => (
-    <div className="question">
-      <h3 className="title">{question.question}</h3>
-      <div className="options">
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const answer = formData.get(name);
+    dispatch(saveAnswer([questionNr, answer]));
+    if (Number(questionNr) < Object.values(questions).length) {
+      navigate(`/questions/${Number(questionNr) + 1}`);
+    } else {
+      navigate(`/result`);
+    }
+  };
+
+  const renderOptions = () => (
+    <div className="form">
+      <form onSubmit={handleSubmit}>
         {options.map((option) => (
-          <div key={option}>{option}</div>
+          <Radio
+            key={option}
+            name={name}
+            value={option}
+            defaultChecked={false}
+          />
         ))}
-      </div>
+        <button className="next-button" type="submit">
+          Next
+        </button>
+      </form>
     </div>
   );
 
   return (
     <main id="question">
       <h2>Question</h2>
-      {renderQuestion()}
+      <div className="question">
+        <h3 className="title">{question.question}</h3>
+        <div className="options">{renderOptions()}</div>
+      </div>
     </main>
   );
 }
