@@ -14,7 +14,7 @@ export default function QuestionDetail() {
   const navigate = useNavigate();
   useEffect(() => {
     if (!question) {
-      navigate("/questions/1");
+      navigate("/");
     }
   }, [question]);
 
