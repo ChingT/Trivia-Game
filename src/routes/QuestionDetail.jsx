@@ -9,6 +9,11 @@ export default function QuestionDetail() {
 
   const questions = useSelector((state) => state.questions.questions);
   const allOptions = useSelector((state) => state.questions.options);
+  const answers = useSelector((state) => state.questions.answers);
+  const numberOfQuestions = useSelector(
+    (state) => state.questions.numberOfQuestions
+  );
+
   const { questionNr } = useParams();
   const question = questions[questionNr];
   const options = allOptions[questionNr];
@@ -26,14 +31,16 @@ export default function QuestionDetail() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const formData = new FormData(e.target);
-    const answer = formData.get(name);
+    navigate(
+      questionNr == numberOfQuestions
+        ? "/result"
+        : `/questions/${Number(questionNr) + 1}`
+    );
+  };
+
+  const handleClick = (e) => {
+    const answer = e.target.value;
     dispatch(saveAnswer([questionNr, answer]));
-    if (Number(questionNr) < Object.values(questions).length) {
-      navigate(`/questions/${Number(questionNr) + 1}`);
-    } else {
-      navigate(`/result`);
-    }
   };
 
   const renderOptions = () => (
@@ -44,21 +51,21 @@ export default function QuestionDetail() {
             key={option}
             name={name}
             value={option}
-            defaultChecked={false}
+            handleClick={handleClick}
+            defaultChecked={answers[questionNr] === option}
           />
         ))}
         <button className="next-button" type="submit">
-          Next
+          {questionNr == numberOfQuestions ? "Checkout Result" : "Next"}
         </button>
       </form>
     </div>
   );
-
   return (
     <main id="question">
-      <h2>Question</h2>
+      <h2>Question {questionNr}</h2>
       <div className="question">
-        <h3 className="title">{question.question}</h3>
+        <h3 dangerouslySetInnerHTML={{ __html: question.question }} />
         <div className="options">{renderOptions()}</div>
       </div>
     </main>
