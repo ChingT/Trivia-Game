@@ -1,7 +1,8 @@
 import "./App.css";
+import Router from "./routes";
 
 function App() {
-  return <>Trivia Game</>;
+  return <Router />;
 }
 
 export default App;
