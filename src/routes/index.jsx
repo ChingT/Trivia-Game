@@ -1,13 +1,13 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Layout from "./Layout";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./Home";
+import Layout from "./Layout";
+import NotFound from "./NotFound";
 import QuestionDetail from "./QuestionDetail";
 import Result from "./Result";
-import NotFound from "./NotFound";
 
 export default function Router() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/Trivia-Game">
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
